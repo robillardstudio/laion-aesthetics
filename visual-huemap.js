@@ -3,6 +3,12 @@ let squareSize = 10; // Taille constante des carrés représentant les images
 let canvaWidth = 1080 / 2;
 let canvaHeight = 1080 / 2;
 
+const maxImageWidth = 7656;
+const maxImageHeight = 6000;
+
+const minX = 0;
+const maxX = 540;
+
 function preload() {
   // Charger les données du fichier CSV avant de démarrer le programme
   data = loadTable("data.csv", "csv", "header");
@@ -21,18 +27,23 @@ function setup() {
   for (let i = 0; i < data.getRowCount(); i++) {
     let imageWidth = data.getNum(i, "width");
     let imageHeight = data.getNum(i, "height");
+
     let hue = data.getNum(i, "hue");
     let luminosity = data.getNum(i, "value");
-    let mappedHue = map(hue, 0, 1, 0, 360);
-    let mappedLuminosity = map(luminosity, 0, 1, 0, 100);
+    let mappedHue = hue * 360;
+    let mappedLuminosity = luminosity * 100;
+
+    let mappedImageWidth = map(imageWidth, 0, maxImageWidth, 1, 50);
+    let mappedImageHeight = map(imageHeight, 0, maxImageHeight, 1, 50);
 
     // Convertir la position polaire en coordonnées cartésiennes
-    let x = centerX + (width / 2) * cos(radians(mappedHue));
+    let x = centerX + (width / 2) * cos(radians(mappedHue)) * luminosity;
     let y = centerY + (height / 2) * sin(radians(mappedHue)) * luminosity;
 
+    let mappedX = map(x, 0, maxX, 0, canvaWidth - 25);
+
     // Dessiner le carré représentant l'image
-    console.log(x, y);
     fill(mappedHue, 100, mappedLuminosity);
-    rect(x, y, imageWidth, imageHeight);
+    rect(mappedX, y, mappedImageWidth, mappedImageHeight);
   }
 }
