@@ -1,12 +1,12 @@
 let data; // Variable pour stocker les données du fichier CSV
-let point=10; //Point de rencontres (couleurs, la luminosité et la dimension)
+let point = 10; //Point de rencontres (couleurs, la luminosité et la dimension)
 let line; // Les fils représentant les images
 let canvaWidth = 1080 / 2;
 let canvaHeight = 1080 / 2;
 
 function preload() {
   // Charger les données du fichier CSV avant de démarrer le programme
-  data = loadTable("data.csv", "csv", "header");
+  data = loadTable("/assets/data/data.csv", "csv", "header");
 }
 
 function setup() {
@@ -18,12 +18,12 @@ function setup() {
   let tintY = 2;
 
   // Trouver le deuxième point, concerne la luminosité de l'image
-  let lumX = width/2;
-  let lumY = height/2;
+  let lumX = width / 2;
+  let lumY = height / 2;
 
-   // Trouver le deuxième point, concerne la luminosité de l'image
-   let weightX = width-2;
-   let weightY = height-2;
+  // Trouver le deuxième point, concerne la luminosité de l'image
+  let weightX = width - 2;
+  let weightY = height - 2;
 
   // Parcourir chaque ligne du CSV
   for (let i = 0; i < data.getRowCount(); i++) {
@@ -40,7 +40,7 @@ function setup() {
   }
 }
 
-function draw(){
+function draw() {
   background(255);
   stroke(0); // Couleur de la ligne (noir)
   strokeWeight(2); // Épaisseur de la ligne

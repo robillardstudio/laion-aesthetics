@@ -11,11 +11,12 @@ const maxX = 540;
 
 function preload() {
   // Charger les données du fichier CSV avant de démarrer le programme
-  data = loadTable("data.csv", "csv", "header");
+  data = loadTable("/assets/data/data.csv", "csv", "header");
 }
 
 function setup() {
-  createCanvas(canvaWidth, canvaHeight); // Ajustez la taille du canevas selon vos besoins
+  const canva = createCanvas(canvaWidth, canvaHeight); // Ajustez la taille du canevas selon vos besoins
+  canva.parent("canva");
   colorMode(HSB, 360, 100, 100); // Mode de couleur HSB
   noStroke(); // Pas de contour pour les carrés
 
@@ -43,6 +44,7 @@ function setup() {
     let mappedX = map(x, 0, maxX, 0, canvaWidth - 25);
 
     // Dessiner le carré représentant l'image
+    rectMode(CENTER);
     fill(mappedHue, 100, mappedLuminosity);
     rect(mappedX, y, mappedImageWidth, mappedImageHeight);
   }
