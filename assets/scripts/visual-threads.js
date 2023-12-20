@@ -1,47 +1,89 @@
 let data; // variable pour stocker les données du fichier CSV
-const canvaWidth = 1920 / 1.2;
+const canvaWidth = 1080;
 const canvaHeight = 1080 / 1.2;
 
-const xHue = 50;
-const xValue = 500;
-const xRes = 1000;
-
 const margin = 100;
+let gui;
+
+let params = {
+  xHue: 50,
+  xValue: 500,
+  xRes: 1000,
+  reload: function () {
+    setup(false);
+  },
+  dataNb: 1000,
+};
 
 function preload() {
   // Charger le fichier CSV
   data = loadTable("/assets/data/data.csv", "csv", "header");
 }
 
-function setup() {
-  createCanvas(canvaWidth, canvaHeight);
+function setup(firstRun = true) {
+  const canva = createCanvas(canvaWidth, canvaHeight);
+  canva.parent("canva");
+
   background(255);
   drawAxes();
   drawPoints();
+  if (firstRun) {
+    setupGui();
+  }
+}
+
+function setupGui() {
+  // Initialiser dat.GUI
+  gui = new dat.GUI();
+  gui
+    .add(params, "dataNb")
+    .min(100)
+    .max(data.getRowCount())
+    .step(100)
+    .name("Number of data");
+  gui
+    .add(params, "xHue")
+    .min(0)
+    .max(width - margin)
+    .step(1)
+    .name("xHue");
+  gui
+    .add(params, "xValue")
+    .min(0)
+    .max(width - margin)
+    .step(1)
+    .name("xValue");
+  gui
+    .add(params, "xRes")
+    .min(0)
+    .max(width - margin)
+    .step(1)
+    .name("xRes");
+  gui.add(params, "reload");
 }
 
 function drawAxes() {
   // Dessiner les axes
   stroke(0);
-  line(xHue, 50, xHue, height - 50); // Axe de la teinte (hue)
-  line(xValue, 50, xValue, height - 50); // Axe de la luminosité (value)
-  line(xRes, 50, xRes, height - 50); // Axe de la résolution (width * height)
+  line(params.xHue, 50, params.xHue, height - 50); // Axe de la teinte (hue)
+  line(params.xValue, 50, params.xValue, height - 50); // Axe de la luminosité (value)
+  line(params.xRes, 50, params.xRes, height - 50); // Axe de la résolution (width * height)
 
   textAlign(CENTER, CENTER);
   textSize(14);
 
+  noStroke();
   // Étiquettes des axes
-  text("Teinte", xHue, margin / 4);
-  text("Luminosité", xValue, margin / 4);
-  text("Résolution", xRes, margin / 4);
+  text("Teinte", params.xHue, margin / 4);
+  text("Luminosité", params.xValue, margin / 4);
+  text("Résolution", params.xRes, margin / 4);
 }
 
 function drawPoints() {
-  const maxRow = data.getRowCount();
   colorMode(HSB, 360, 100, 100); // Mode de couleur HSB
 
   // Parcourir toutes les lignes du fichier CSV
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < params.dataNb; i++) {
     // Extraire les valeurs nécessaires
     const hue = data.getNum(i, "hue");
     const value = data.getNum(i, "value");
@@ -65,13 +107,13 @@ function drawPoints() {
 
     // Dessiner un point sur le canva
     fill(mappedHue, 100, mappedLuminosity);
-    ellipse(xHue, yHue, 5, 5);
-    ellipse(xValue, yValue, 5, 5);
-    ellipse(xRes, yRes, 5, 5);
+    ellipse(params.xHue, yHue, 5, 5);
+    ellipse(params.xValue, yValue, 5, 5);
+    ellipse(params.xRes, yRes, 5, 5);
 
     stroke(mappedHue, 100, mappedLuminosity);
-    line(xHue, yHue, xValue, yValue);
-    line(xValue, yValue, xRes, yRes);
+    line(params.xHue, yHue, params.xValue, yValue);
+    line(params.xValue, yValue, params.xRes, yRes);
   }
 }
 
