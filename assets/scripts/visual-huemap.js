@@ -30,7 +30,7 @@ let params = {
     else showPics = true;
     setup(false);
   },
-  dataNb: 1000,
+  dataNb: 5000,
 };
 
 function preload() {
