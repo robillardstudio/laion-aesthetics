@@ -1,0 +1,18 @@
+.production{
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: center;
+    margin:2em;
+}
+
+.legende{
+    width:40%;
+    text-align: justify;
+    font-weight: 300;
+}
+
+.legende h3{
+    text-align: justify;
+    font-weight: 400;
+}
