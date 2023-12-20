@@ -1,20 +1,23 @@
 .production{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: top;
     justify-content: center;
     margin:2em;
 }
 
 .legende{
-    width:50%;
     text-align: justify;
     font-weight: 300;
     margin-left:2em;
-
 }
 
 .legende h3{
     text-align: justify;
     font-weight: 400;
+}
+
+.legende p{
+    text-align: justify;
+    
 }
