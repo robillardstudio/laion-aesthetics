@@ -1,48 +1,90 @@
-let data; // Variable pour stocker les données du fichier CSV
-let point = 10; //Point de rencontres (couleurs, la luminosité et la dimension)
-let line; // Les fils représentant les images
-let canvaWidth = 1080 / 2;
-let canvaHeight = 1080 / 2;
+let data; // variable pour stocker les données du fichier CSV
+const canvaWidth = 1920 / 1.2;
+const canvaHeight = 1080 / 1.2;
+
+const xHue = 50;
+const xValue = 500;
+const xRes = 1000;
+
+const margin = 100;
 
 function preload() {
-  // Charger les données du fichier CSV avant de démarrer le programme
+  // Charger le fichier CSV
   data = loadTable("/assets/data/data.csv", "csv", "header");
 }
 
 function setup() {
-  createCanvas(canvaWidth, canvaHeight); // Ajustez la taille du canevas selon vos besoins
+  createCanvas(canvaWidth, canvaHeight);
+  background(255);
+  drawAxes();
+  drawPoints();
+}
+
+function drawAxes() {
+  // Dessiner les axes
+  stroke(0);
+  line(xHue, 50, xHue, height - 50); // Axe de la teinte (hue)
+  line(xValue, 50, xValue, height - 50); // Axe de la luminosité (value)
+  line(xRes, 50, xRes, height - 50); // Axe de la résolution (width * height)
+
+  textAlign(CENTER, CENTER);
+  textSize(14);
+
+  // Étiquettes des axes
+  text("Teinte", xHue, margin / 4);
+  text("Luminosité", xValue, margin / 4);
+  text("Résolution", xRes, margin / 4);
+}
+
+function drawPoints() {
+  const maxRow = data.getRowCount();
   colorMode(HSB, 360, 100, 100); // Mode de couleur HSB
 
-  // Trouver le premier point, concerne la teinte de l'image
-  let tintX = 2;
-  let tintY = 2;
+  // Parcourir toutes les lignes du fichier CSV
+  for (let i = 0; i < 1000; i++) {
+    // Extraire les valeurs nécessaires
+    const hue = data.getNum(i, "hue");
+    const value = data.getNum(i, "value");
+    const resolution = data.getNum(i, "width") * data.getNum(i, "height");
 
-  // Trouver le deuxième point, concerne la luminosité de l'image
-  let lumX = width / 2;
-  let lumY = height / 2;
+    // Normaliser les valeurs pour les ajuster à l'échelle du canva
+    const yHue = map(hue, 0, 1, height - margin, 0 + margin);
+    const yValue = map(value, 0, 1, height - margin, 0 + margin);
+    const yRes = map(
+      resolution,
+      0,
+      maxResolution(),
+      height - margin,
+      0 + margin
+    );
 
-  // Trouver le deuxième point, concerne la luminosité de l'image
-  let weightX = width - 2;
-  let weightY = height - 2;
+    // Get color
+    const luminosity = data.getNum(i, "value");
+    const mappedHue = hue * 360;
+    const mappedLuminosity = luminosity * 100;
 
-  // Parcourir chaque ligne du CSV
-  for (let i = 0; i < data.getRowCount(); i++) {
-    let imageWidth = data.getNum(i, "width");
-    let imageHeight = data.getNum(i, "height");
-    let hue = data.getNum(i, "hue");
-    let luminosity = data.getNum(i, "value");
-    let mappedHue = map(hue, 0, 1, 0, 360);
-    let mappedLuminosity = map(luminosity, 0, 1, 0, 100);
+    // Dessiner un point sur le canva
+    fill(mappedHue, 100, mappedLuminosity);
+    ellipse(xHue, yHue, 5, 5);
+    ellipse(xValue, yValue, 5, 5);
+    ellipse(xRes, yRes, 5, 5);
 
-    // Dessiner une ligne représentant l'image
-    // console.log(tintX, tintY);
-    // fill(mappedHue, 100, mappedLuminosity);
+    stroke(mappedHue, 100, mappedLuminosity);
+    line(xHue, yHue, xValue, yValue);
+    line(xValue, yValue, xRes, yRes);
   }
 }
 
-function draw() {
-  background(255);
-  stroke(0); // Couleur de la ligne (noir)
-  strokeWeight(2); // Épaisseur de la ligne
-  line(0, 0, 350, 100); // Dessine une ligne de (0, 0) à (350, 100)
+function maxResolution() {
+  // Fonction pour trouver la résolution maximale dans les données
+  let maxRes = 0;
+  for (let i = 0; i < data.getRowCount(); i++) {
+    let widthVal = float(data.getString(i, "width"));
+    let heightVal = float(data.getString(i, "height"));
+    let resolution = widthVal * heightVal;
+    if (resolution > maxRes) {
+      maxRes = resolution;
+    }
+  }
+  return maxRes;
 }
