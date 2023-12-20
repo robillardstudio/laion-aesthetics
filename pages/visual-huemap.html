@@ -43,8 +43,8 @@
           <br>
         </ul>
         <h3>Analyse</h3>
-        <p>Nous constatons sur la roue chromatique que les couleurs majoritairement présentes sont les couleurs de la nature. Majoritairement des nuances de vert, mais quelques nuances de bleu et de rouge. Les couleurs plus artificielles sont issues d’images de très petites tailles. Dès que l’on augmente le paramètre de taille minimum des images, on constate que la moitié de la roue se vide (les teintes violettes - rouges).
-          <br><br> Désormais, les productions imprimées visent à maximiser la clarté (par souci écologique, en limitant la consommation d'encre), tandis que les sites web et les images numériques tendent à adopter des tonalités de plus en plus sombres pour réduire la demande énergétique liée à l'allumage des écrans, des pixels. On peut légitimement se questionner sur une possible inversion future de la Hue Map des images, privilégiant davantage les teintes sombres aux teintes claires. Alors que le mezzo tinto (gratter une plaque noire afin d'obtenir des zones blanches nettes et des nuances de gris. ) avait été délaissé, l'émergence des modes sombres suggère un retour vers cette approche artistique.</p>
+        <p>Comme nous calculons la moyenne de la teinte, pour une image ayant une variation de teinte homogène, on devrait trouver du cyan. Pourtant, nous constatons sur la roue chromatique que les moyennes de teinte tournent plutôt autour du vert. Cela signifie que les images ont principalement des nuances de vert et de rouge (teinte faible). Les couleurs plus artificielles de type rose et violet sont issues d’images de très petites tailles. Dès que l’on augmente le paramètre de taille minimum des images, on constate que la moitié de la roue se vide (les teintes violettes - rouges).  Pourtant, elle ne se vide pas tant que ça étant donné le nombre énorme de pixels des images, nous récupérons encore des moyennes de teinte proches de 0 (vers le rouge) ou proches de 1 (vers le rose). Cela signifie que les images d’entraînement sont très contrastées.
+        </p>
       </div>    
   </body>
 </html>

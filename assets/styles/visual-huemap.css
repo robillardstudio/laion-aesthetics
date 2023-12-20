@@ -1,13 +1,12 @@
 .production{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: top;
     justify-content: center;
     margin:2em;
 }
 
 .legende{
-    width:40%;
     text-align: justify;
     font-weight: 300;
 }
