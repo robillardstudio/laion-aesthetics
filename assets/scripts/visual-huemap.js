@@ -11,7 +11,7 @@ const maxX = 540;
 
 function preload() {
   // Charger les données du fichier CSV avant de démarrer le programme
-  data = loadTable("../data/data.csv", "csv", "header");
+  data = loadTable("../assets/data/data.csv", "csv", "header");
 }
 
 function setup() {

@@ -17,7 +17,7 @@ let params = {
 
 function preload() {
   // Charger le fichier CSV
-  data = loadTable("../data/data.csv", "csv", "header");
+  data = loadTable("../assets/data/data.csv", "csv", "header");
 }
 
 function setup(firstRun = true) {
