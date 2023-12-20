@@ -10,6 +10,7 @@ const minX = 0;
 const maxX = 540;
 
 let constantSize = false;
+let showPics = false;
 
 let gui;
 
@@ -24,7 +25,12 @@ let params = {
     else constantSize = true;
     setup(false);
   },
-  dataNb: 5000,
+  setShowPics: function () {
+    if (showPics) showPics = false;
+    else showPics = true;
+    setup(false);
+  },
+  dataNb: 1000,
 };
 
 function preload() {
@@ -59,6 +65,7 @@ function setupGui() {
     .step(1000)
     .name("Minimum picture size");
   gui.add(params, "setConstantSize").name("Size of images/points");
+  gui.add(params, "setShowPics").name("Show hue/pics");
   gui.add(params, "reload");
 }
 
@@ -74,9 +81,8 @@ function drawGraph() {
     let imageWidth = data.getNum(i, "width");
     let imageHeight = data.getNum(i, "height");
 
-    const size = imageWidth * imageHeight;
-
-    if (size >= params.minimumPictureSize) {
+    if (imageWidth * imageHeight >= params.minimumPictureSize) {
+      let file = data.getString(i, "file").slice(0, -4);
       let hue = data.getNum(i, "hue");
       let luminosity = data.getNum(i, "value");
       let mappedHue = hue * 360;
@@ -91,14 +97,24 @@ function drawGraph() {
 
       let mappedX = map(x, 0, maxX, 0, canvaWidth - 25);
 
-      // Dessiner le carré représentant l'image
-      rectMode(CENTER);
-      fill(mappedHue, params.saturation, mappedLuminosity);
+      if (showPics) {
+        // Afficher image
+        imageMode(CENTER);
 
-      if (constantSize) {
-        ellipse(mappedX, y, squareSize, squareSize);
+        let img = loadImage(
+          "../assets/data/imgs/" + file + "-10x10.jpg",
+          (img) => image(img, mappedX, y)
+        );
       } else {
-        rect(mappedX, y, mappedImageWidth, mappedImageHeight);
+        // Dessiner le carré représentant l'image
+        rectMode(CENTER);
+        fill(mappedHue, params.saturation, mappedLuminosity);
+
+        if (constantSize) {
+          ellipse(mappedX, y, squareSize, squareSize);
+        } else {
+          rect(mappedX, y, mappedImageWidth, mappedImageHeight);
+        }
       }
     }
   }
