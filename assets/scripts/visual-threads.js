@@ -7,10 +7,11 @@ let gui;
 
 let maxRes;
 
+const xValue = 50;
+const xHue = 500;
+const xRes = 1000;
+
 let params = {
-  xValue: 50,
-  xHue: 500,
-  xRes: 1000,
   reload: function () {
     setup(false);
     drawAxes();
@@ -46,49 +47,32 @@ function setupGui() {
     .max(data.getRowCount())
     .step(100)
     .name("Number of data");
-  gui
-    .add(params, "xHue")
-    .min(0)
-    .max(width - margin)
-    .step(1)
-    .name("xHue");
-  gui
-    .add(params, "xValue")
-    .min(0)
-    .max(width - margin)
-    .step(1)
-    .name("xValue");
-  gui
-    .add(params, "xRes")
-    .min(0)
-    .max(width - margin)
-    .step(1)
-    .name("xRes");
+
   gui.add(params, "reload");
 }
 
 function drawAxes() {
   // Dessiner les axes
   stroke(0);
-  line(params.xHue, 50, params.xHue, height - 50); // Axe de la teinte (hue)
-  line(params.xValue, 50, params.xValue, height - 50); // Axe de la luminosité (value)
-  line(params.xRes, 50, params.xRes, height - 50); // Axe de la résolution (width * height)
+  line(xHue, 50, xHue, height - 50); // Axe de la teinte (hue)
+  line(xValue, 50, xValue, height - 50); // Axe de la luminosité (value)
+  line(xRes, 50, xRes, height - 50); // Axe de la résolution (width * height)
 
   // Étiquettes des axes
   textAlign(CENTER, CENTER);
   textSize(14);
   noStroke();
   fill("black");
-  text("Teinte", params.xHue, margin / 4);
-  text("Luminosité", params.xValue, margin / 4);
-  text("Résolution", params.xRes, margin / 4);
+  text("Teinte", xHue, margin / 4);
+  text("Luminosité", xValue, margin / 4);
+  text("Résolution", xRes, margin / 4);
 
   const maxResLabel = floor(exp(sqrt(maxRes)) / 1000);
 
-  text(maxResLabel + "k", params.xRes + margin / 2, margin);
+  text(maxResLabel + "k", xRes + margin / 2, margin);
 
-  text(100, params.xValue - margin / 4, margin);
-  text(0, params.xValue - margin / 4, height - margin);
+  text(100, xValue - margin / 4, margin);
+  text(0, xValue - margin / 4, height - margin);
 }
 
 function calcRes(x) {
@@ -119,9 +103,9 @@ function drawPoints() {
     // Dessiner un point sur le canva
     noStroke();
     fill(mappedHue, 100, mappedLuminosity);
-    ellipse(params.xHue, yHue, 5, 5);
-    ellipse(params.xValue, yValue, 5, 5);
-    ellipse(params.xRes, yRes, 5, 5);
+    ellipse(xHue, yHue, 5, 5);
+    ellipse(xValue, yValue, 5, 5);
+    ellipse(xRes, yRes, 5, 5);
 
     fill("black");
 
@@ -133,13 +117,12 @@ function drawPoints() {
       floorNb = 5000;
     }
 
-    if (res < floorNb || random() < rate)
-      text(floor(res), params.xRes + 50, yRes);
+    if (res < floorNb || random() < rate) text(floor(res), xRes + 50, yRes);
 
     stroke(mappedHue, 100, mappedLuminosity);
 
-    line(params.xValue, yValue, params.xHue, yHue);
-    line(params.xHue, yHue, params.xRes, yRes);
+    line(xValue, yValue, xHue, yHue);
+    line(xHue, yHue, xRes, yRes);
   }
 }
 
