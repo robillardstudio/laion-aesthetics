@@ -1,6 +1,6 @@
-# Data design - LAION Aesthetics
+# Data design class - LAION Aesthetics
 
-_IMAC 3 project, group: Anastasiya Balan, Sarah N'Gotta, Marie-Claire Saint-Dizier, Grégoire Tinnes_
+Gaëtan Robillard. Students: Anastasiya Balan, Sarah N'Gotta, Marie-Claire Saint-Dizier, Grégoire Tinnes
 
 This project use this [dataset](https://github.com/robillardstudio/laion2B-en-aesthetic-minified)
 
